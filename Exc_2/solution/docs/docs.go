@@ -58,7 +58,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.Order"
+                            "$ref": "#/definitions/model.OrderDto"
                         }
                     }
                 ],
@@ -94,7 +94,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/order/total": {
+        "/api/order/totalled": {
             "get": {
                 "description": "Returns all orders",
                 "produces": [
@@ -109,7 +109,11 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/model.Order"
+                                "type": "object",
+                                "additionalProperties": {
+                                    "type": "integer",
+                                    "format": "int64"
+                                }
                             }
                         }
                     }
@@ -139,10 +143,22 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "amount": {
-                    "type": "number"
+                    "type": "integer"
                 },
                 "created_at": {
                     "type": "string"
+                },
+                "drink_id": {
+                    "description": "foreign key",
+                    "type": "integer"
+                }
+            }
+        },
+        "model.OrderDto": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "integer"
                 },
                 "drink_id": {
                     "description": "foreign key",

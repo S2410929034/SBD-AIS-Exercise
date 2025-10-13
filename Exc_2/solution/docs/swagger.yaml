@@ -13,9 +13,17 @@ definitions:
   model.Order:
     properties:
       amount:
-        type: number
+        type: integer
       created_at:
         type: string
+      drink_id:
+        description: foreign key
+        type: integer
+    type: object
+  model.OrderDto:
+    properties:
+      amount:
+        type: integer
       drink_id:
         description: foreign key
         type: integer
@@ -52,7 +60,7 @@ paths:
         name: b
         required: true
         schema:
-          $ref: '#/definitions/model.Order'
+          $ref: '#/definitions/model.OrderDto'
       produces:
       - application/json
       responses:
@@ -76,7 +84,7 @@ paths:
             type: array
       tags:
       - Order
-  /api/order/total:
+  /api/order/totalled:
     get:
       description: Returns all orders
       produces:
@@ -86,7 +94,10 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/model.Order'
+              additionalProperties:
+                format: int64
+                type: integer
+              type: object
             type: array
       tags:
       - Order

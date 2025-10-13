@@ -9,3 +9,10 @@ type Order struct {
 	// todo Add fields: CreatedAt (time.Time), Amount with suitable types
 	// todo json attributes need to be snakecase, i.e. name, created_at, my_variable, ..
 }
+
+type OrderDto struct {
+	DrinkID uint64 `json:"drink_id"` // foreign key
+	Amount  uint64 `json:"amount"`
+	// todo Add fields: CreatedAt (time.Time), Amount with suitable types
+	// todo json attributes need to be snakecase, i.e. name, created_at, my_variable, ..
+}
