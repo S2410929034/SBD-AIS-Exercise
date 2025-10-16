@@ -50,7 +50,7 @@ func GetOrders(db *repository.DatabaseHandler) http.HandlerFunc {
 // @tags 			Order
 // @Description 	Returns all orders
 // @Produce  		json
-// @Success 		200 {array} map[uint64]uint64
+// @Success 		200 {object} map[uint64]uint64
 // @Router 			/api/order/totalled [get]
 func GetOrdersTotal(db *repository.DatabaseHandler) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {

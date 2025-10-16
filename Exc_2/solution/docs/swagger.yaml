@@ -93,12 +93,10 @@ paths:
         "200":
           description: OK
           schema:
-            items:
-              additionalProperties:
-                format: int64
-                type: integer
-              type: object
-            type: array
+            additionalProperties:
+              format: int64
+              type: integer
+            type: object
       tags:
       - Order
 swagger: "2.0"
