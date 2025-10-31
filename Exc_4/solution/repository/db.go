@@ -4,8 +4,10 @@ import (
 	"errors"
 	"fmt"
 	"log/slog"
+	"math/rand"
 	"ordersystem/model"
 	"os"
+	"time"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -79,32 +81,34 @@ func prepopulate(dbConn *gorm.DB) error {
 		// don't prepopulate if has already run
 		return nil
 	}
-
 	// create drink menu
-	// todo create drinks
-	// todo create orders
-	// GORM documentation can be found here: https://gorm.io/docs/index.html
 	drinks := []model.Drink{
-		{Name: "Coffee", Price: 2.50, Description: "Fuel for productivity — bold, aromatic, and ready to jumpstart your brain."},
-		{Name: "Tea", Price: 2.00, Description: "A calm in a cup — gentle flavors that whisper 'you’ve got this.'"},
-		{Name: "Coke", Price: 1.75, Description: "Bubbly happiness in a bottle — classic, fizzy, and unapologetically refreshing."},
-		{Name: "Water", Price: 1.00, Description: "Simple. Pure. The OG thirst-quencher that never goes out of style."},
+		{Name: "Beer", Price: 2.0, Description: "Hagenberger Gold"},
+		{Name: "Spritzer", Price: 1.4, Description: "Wine with soda"},
+		{Name: "Coffee", Price: 0.0, Description: "Mifare isn't that secure ;)"},
 	}
-
-	if err := dbConn.Create(&drinks).Error; err != nil {
+	err = dbConn.Create(drinks).Error
+	if err != nil {
 		return err
 	}
-
-	orders := []model.Order{
-		{DrinkID: drinks[0].ID, Amount: 2},
-		{DrinkID: drinks[1].ID, Amount: 1},
-		{DrinkID: drinks[2].ID, Amount: 3},
+	// create orders
+	var orders []model.Order
+	for _, drink := range drinks {
+		for i := 0; i < 15; i++ {
+			order := model.Order{
+				Base: model.Base{
+					CreatedAt: time.Now().Add(time.Duration(rand.Intn(30)) * time.Minute),
+				},
+				Amount:  uint64(rand.Intn(5)),
+				DrinkID: drink.ID,
+			}
+			orders = append(orders, order)
+		}
 	}
-
-	if err := dbConn.Create(&orders).Error; err != nil {
+	err = dbConn.Create(orders).Error
+	if err != nil {
 		return err
 	}
-
 	return nil
 }
 

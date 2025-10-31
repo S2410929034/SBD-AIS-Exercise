@@ -1,0 +1,37 @@
+# todo
+services:
+  drink-db:
+    image: postgres:18
+    container_name: drink-db
+    restart: unless-stopped
+    env_file:
+      - debug.env
+    volumes:
+      - drinkdbdata:/var/lib/postgresql/18/docker
+    ports:
+      - "5432:5432"
+    networks:
+      - service-net
+
+  drink-webserver:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: drink-webserver
+    restart: unless-stopped
+    command: ["./ordersystem"]
+    env_file:
+      - debug.env
+    depends_on:
+      - drink-db
+    ports:
+      - "3000:3000"
+    networks:
+      - service-net
+
+networks:
+  service-net:
+    driver: bridge
+
+volumes:
+  drinkdbdata:
