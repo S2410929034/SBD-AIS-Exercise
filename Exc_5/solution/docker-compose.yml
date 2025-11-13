@@ -14,11 +14,12 @@ services:
     # todo add traefik config
     # todo only expose network web
     command:
-      - "--api.dashboard=true"
-      - "--providers.docker=true"
-      - "--providers.docker.exposedbydefault=false"
-      - "--providers.docker.network=web"
-      - "--entrypoints.web.address=:80"
+      - "--api.dashboard=true" # enable dashboard
+      - "--api.insecure=true" # enable insecure access to dashboard
+      - "--providers.docker=true" # enable docker as provider
+      - "--providers.docker.exposedbydefault=false" # disable all containers by default
+      - "--providers.docker.network=web" # set docker network that will be used by traefik to web
+      - "--entrypoints.web.address=:80" # define entrypoint web on port 80
     restart: unless-stopped
     ports:
       - "80:80"
@@ -38,10 +39,10 @@ services:
     restart: unless-stopped
     # todo add traefik labels
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.orderservice.rule=Host(`orders.localhost`)"
-      - "traefik.http.routers.orderservice.entrypoints=web"
-      - "traefik.http.services.orderservice.loadbalancer.server.port=3000"
+      - "traefik.enable=true" # enable traefik for this service
+      - "traefik.http.routers.orderservice.rule=Host(`orders.localhost`)" # define routing rule
+      - "traefik.http.routers.orderservice.entrypoints=web" # define entrypoint
+      - "traefik.http.services.orderservice.loadbalancer.server.port=3000" # define internal port
     environment:
       - POSTGRES_DB=order
       - POSTGRES_USER=docker
@@ -65,10 +66,10 @@ services:
     restart: unless-stopped
     # todo add traefik labels
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.sws.rule=Host(`localhost`)"
-      - "traefik.http.routers.sws.entrypoints=web"
-      - "traefik.http.services.sws.loadbalancer.server.port=80"
+      - "traefik.enable=true" # enable traefik for this service
+      - "traefik.http.routers.sws.rule=Host(`localhost`)" # define routing rule
+      - "traefik.http.routers.sws.entrypoints=web" # define entrypoint
+      - "traefik.http.services.sws.loadbalancer.server.port=80" # define internal port
     networks:
       - web
 
