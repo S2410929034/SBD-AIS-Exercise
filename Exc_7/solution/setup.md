@@ -8,7 +8,7 @@ sh get-docker.sh`
 
 ### Initialize docker swarm on the controller
 ```sh
-docker swarm init --advertise-addr 192.168.1.150
+docker swarm init --advertise-addr 192.168.2.150
 ```
 
 ### Join the worker nodes
