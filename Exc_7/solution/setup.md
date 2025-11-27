@@ -38,7 +38,7 @@ docker build -f Dockerfile.frontend --platform linux/arm64 -t ghcr.io/s241092903
 docker push ghcr.io/s2410929034/sdb-ais-exercise/frontend:1.0-arm64
 ```
 
-### Copy all files target machine
+### Copy all files to the target machine
 - Can be done via winscp or ssh
 - Copy the docker directory
 - Also copy docker-compose.yml
